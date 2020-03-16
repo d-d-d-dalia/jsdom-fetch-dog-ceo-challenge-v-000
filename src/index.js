@@ -1,8 +1,12 @@
 document.addEventListener("DOMContentLoaded", function(){
   fetchDogs()
   getBreeds()
-  //hover()
+  filter()
 })
+
+function allBreeds() {
+  
+}
 
 function fetchDogs() {
   const imgUrl = "https://dog.ceo/api/breeds/image/random/4"
@@ -41,9 +45,63 @@ function addBreed(breed) {
 
 function hover(breed) {
   let dog = document.getElementById(`${breed}`)
-  dog.addEventListener('click', function(){
+  dog.addEventListener('click', function(e){
     dog.style.color = "#eb4034"
   })
 }
 
+// function dropdown(){
+//   let dropdown = document.getElementById('breed-dropdown')
+//   const breedUrl = 'https://dog.ceo/api/breeds/list/all'
+//  dropdown.addEventListener('change', function(e){
+//         fetch(breedUrl)
+//           .then((resp) => {return resp.json()})
+//           .then((data) => {
+//           breeds = Object.keys(data.message)
+//           return breeds
+//           })
+//   })
+// }
 
+function filter() {
+  let dropdown = document.getElementById('breed-dropdown')
+  const breedUrl = 'https://dog.ceo/api/breeds/list/all'
+  dropdown.addEventListener('change', function(e){
+    if (dropdown['options'][0]["selected"] || dropdown['options'][1]["selected"] || dropdown['options'][2]["selected"] || dropdown['options'][3]["selected"]) {
+      let ul = document.getElementById('dog-breeds')
+      ul.innerHTML = ""
+    }
+    if (dropdown['options'][0]["selected"]) {
+      fetch(breedUrl)
+        .then((resp) => {return resp.json()})
+        .then((data) => {
+        breeds = Object.keys(data.message)
+        breeds.filter(breed => breed.startsWith(dropdown['options'][0]['value'])).forEach((breed) => addBreed(breed))
+        })
+    }
+    else if (dropdown['options'][1]["selected"]) {
+      fetch(breedUrl)
+        .then((resp) => {return resp.json()})
+        .then((data) => {
+        breeds = Object.keys(data.message)
+        breeds.filter(breed => breed.startsWith(dropdown['options'][1]['value'])).forEach((breed) => addBreed(breed))
+        })
+    }
+    else if (dropdown['options'][2]["selected"]) {
+      fetch(breedUrl)
+        .then((resp) => {return resp.json()})
+        .then((data) => {
+        breeds = Object.keys(data.message)
+        breeds.filter(breed => breed.startsWith(dropdown['options'][2]['value'])).forEach((breed) => addBreed(breed))
+        })
+    }
+    else if (dropdown['options'][3]["selected"]) {
+      fetch(breedUrl)
+        .then((resp) => {return resp.json()})
+        .then((data) => {
+        breeds = Object.keys(data.message)
+        breeds.filter(breed => breed.startsWith(dropdown['options'][3]['value'])).forEach((breed) => addBreed(breed))
+        })
+    }
+  })
+}
